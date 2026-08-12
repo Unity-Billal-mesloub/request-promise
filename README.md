@@ -10,28 +10,22 @@
 [![Dependency Status](https://img.shields.io/david/request/request-promise.svg?style=flat-square&maxAge=2592000)](https://david-dm.org/request/request-promise)
 [![Known Vulnerabilities](https://snyk.io/test/npm/request-promise/badge.svg?style=flat-square&maxAge=2592000)](https://snyk.io/test/npm/request-promise)
 
-# Deprecated!
-
-As of Feb 11th 2020, [`request`](https://github.com/request/request) is fully deprecated. No new changes are expected to land. In fact, none have landed for some time. This package is also deprecated because it depends on `request`.
-
-Fyi, here is the [reasoning of `request`'s deprecation](https://github.com/request/request/issues/3142) and a [list of alternative libraries](https://github.com/request/request/issues/3143).
-
 ---
 
 The simplified HTTP request client 'request' with Promise support. Powered by Bluebird.
 
-[Request](https://github.com/request/request) and [Bluebird](https://github.com/petkaantonov/bluebird) are pretty awesome, but I found myself using the same design pattern. Request-Promise adds a Bluebird-powered `.then(...)` method to Request call objects. By default, http response codes other than 2xx will cause the promise to be rejected. This can be overwritten by setting `options.simple = false`.
+[Request](https://github.com/Unity-Billal-mesloub/request) is pretty awesome, but I found myself using the same design pattern. Request-Promise adds a Bluebird-powered `.then(...)` method to Request call objects. By default, http response codes other than 2xx will cause the promise to be rejected. This can be overwritten by setting `options.simple = false`.
 
 Also check out the new libraries that are **very similar to `request-promise` v4**:
-- [`request-promise-native`](https://github.com/request/request-promise-native) v1 &ndash; Does not depend on Bluebird and uses native ES6 promises instead.
-- [`request-promise-any`](https://github.com/request/request-promise-any) v1 &ndash; Allows you to register any Promise library supported by [`any-promise`](https://www.npmjs.com/package/any-promise).
+- [`request-promise-native`](https://github.com/Unity-Billal-mesloub/request-promise-native) v1 &ndash; Does not depend on Bluebird and uses native ES6 promises instead.
+- [`request-promise-any`](https://github.com/Unity-Billal-mesloub/request-promise-any) v1 &ndash; Allows you to register any Promise library supported by [`any-promise`](https://www.npmjs.com/package/any-promise).
 
 ---
 
 ## Migration from v3 to v4
 
 1. `request` became a peer dependency. Thus make sure that `request` is installed into your project as a direct dependency. (`npm install --save request`)
-2. Continuation Local Storage is no longer supported. However, you [can get back the support](https://github.com/request/request-promise/wiki/Getting-Back-Support-for-Continuation-Local-Storage) by using `request-promise-any`.
+2. Continuation Local Storage is no longer supported. However, you [can get back the support](https://github.com/Unity-Billal-mesloub/request-promise/wiki/Getting-Back-Support-for-Continuation-Local-Storage) by using `request-promise-any`.
 3. When you migrated your `transform` function to v3 and had to add `if (!(/^2/.test('' + response.statusCode))) { return resolveWithFullResponse ? response : body; }` you may now set the option `transform2xxOnly = true` instead.
 
 ## Migration from v2 to v3
@@ -61,7 +55,7 @@ npm install --save request-promise
 var rp = require('request-promise');
 ```
 
-Since `request-promise` wraps around `request` everything that works with `request` also works with `request-promise`. Also check out the [`request` docs](https://github.com/request/request) for more examples.
+Since `request-promise` wraps around `request` everything that works with `request` also works with `request-promise`. Also check out the [`request` docs](https://github.com/Unity-Billal-mesloub/request) for more examples.
 
 ### Crawl a webpage
 
@@ -271,7 +265,7 @@ rp(options)
 
 ---
 
-**For more options checkout the [Request docs](https://github.com/request/request#requestoptions-callback).**
+**For more options checkout the [Request docs](https://github.com/Unity-Billal-mesloub/request#requestoptions-callback).**
 
 ---
 
@@ -280,15 +274,14 @@ rp(options)
 Consider Request-Promise being:
 
 - A Request object
-	- With an [identical API](https://github.com/request/request): `require('request-promise') == require('request')` so to say
+	- With an [identical API](https://github.com/Unity-Billal-mesloub/request): `require('request-promise') == require('request')` so to say
 	- However, **STREAMING THE RESPONSE** (e.g. `.pipe(...)`) is **DISCOURAGED** because Request-Promise would grow the memory footprint for large requests unnecessarily high. Use the original Request library for that. You can use both libraries in the same project.
 - Plus some methods on a request call object:
 	- `rp(...).then(...)` or e.g. `rp.post(...).then(...)` which turn `rp(...)` and `rp.post(...)` into promises
 	- `rp(...).catch(...)` or e.g. `rp.del(...).catch(...)` which is the same method as provided by Bluebird promises
-	    - Errors that the `request` library would pass to the callback are wrapped by `request-promise` and then passed to the catch handler. See [code example](https://github.com/request/request-promise#thenonfulfilled-onrejected) below. 
+	    - Errors that the `request` library would pass to the callback are wrapped by `request-promise` and then passed to the catch handler. See [code example](https://github.com/Unity-Billal-mesloub/request-promise#thenonfulfilled-onrejected) below. 
 	- `rp(...).finally(...)` or e.g. `rp.put(...).finally(...)` which is the same method as provided by Bluebird promises
 	- `rp(...).cancel()` or e.g. `rp.get(...).cancel()` which cancels the request
-	- `rp(...).promise()` or e.g. `rp.head(...).promise()` which returns the underlying promise so you can access the full [Bluebird API](https://github.com/petkaantonov/bluebird/blob/master/API.md)
 - Plus some additional options:
 	- `simple = true` which is a boolean to set whether status codes other than 2xx should also reject the promise
 	- `resolveWithFullResponse = false` which is a boolean to set whether the promise should be resolved with the full response or just the response body
@@ -296,8 +289,6 @@ Consider Request-Promise being:
 	- `transform2xxOnly = false` which is a boolean to set whether the transform function is applied to all responses or only to those with a 2xx status code
 
 The objects returned by request calls like `rp(...)` or e.g. `rp.post(...)` are regular Promises/A+ compliant promises and can be assimilated by any compatible promise library.
-
-The methods `.then(...)`, `.catch(...)`, and `.finally(...)` - which you can call on the request call objects - return a full-fledged Bluebird promise. That means you have the full [Bluebird API](https://github.com/petkaantonov/bluebird/blob/master/API.md) available for further chaining. E.g.: `rp(...).then(...).spread(...)` If, however, you need a method other than `.then(...)`, `.catch(...)`, or `.finally(...)` to be **FIRST** in the chain, use `.promise()`: `rp(...).promise().bind(...).then(...)`
 
 ### .then(onFulfilled, onRejected)
 
@@ -350,8 +341,6 @@ rp('http://google.com')
     .then(process, handleError);
 ```
 
-For more info on `.then(process).catch(handleError)` versus `.then(process, handleError)`, see Bluebird docs on [promise anti-patterns](http://bluebirdjs.com/docs/anti-patterns.html#the-.then).
-
 ### .finally(onFinished)
 
 ``` js
@@ -360,10 +349,6 @@ rp('http://google.com')
 	    // This is called after the request finishes either successful or not successful.
 	});
 ```
-
-### .cancel()
-
-This method cancels the request using [Bluebird's cancellation feature](http://bluebirdjs.com/docs/api/cancellation.html).
 
 When `.cancel()` is called:
 
@@ -586,19 +571,19 @@ rp(options)
 
 ## Experimental Support for Continuation Local Storage
 
-Continuation Local Storage is no longer supported. However, you [can get back the support](https://github.com/request/request-promise/wiki/Getting-Back-Support-for-Continuation-Local-Storage) by using `request-promise-any`.
+Continuation Local Storage is no longer supported. However, you [can get back the support](https://github.com/Unity-Billal-mesloub/request-promise/wiki/Getting-Back-Support-for-Continuation-Local-Storage) by using `request-promise-any`.
 
 ## Debugging
 
-The ways to debug the operation of Request-Promise are the same [as described](https://github.com/request/request#debugging) for Request. These are:
+The ways to debug the operation of Request-Promise are the same [as described](https://github.com/Unity-Billal-mesloub/request#debugging) for Request. These are:
 
 1. Launch the node process like `NODE_DEBUG=request node script.js` (`lib,request,otherlib` works too).
 2. Set `require('request-promise').debug = true` at any time (this does the same thing as #1).
-3. Use the [request-debug module](https://github.com/nylen/request-debug) to view request and response headers and bodies. Instrument Request-Promise with `require('request-debug')(rp);`.
+3. Use the [request-debug module](https://github.com/Unity-Billal-mesloub/request-debug) to view request and response headers and bodies. Instrument Request-Promise with `require('request-debug')(rp);`.
 
 ## Mocking Request-Promise
 
-Usually you want to mock the whole request function which is returned by `require('request-promise')`. This is not possible by using a mocking library like [sinon.js](http://sinonjs.org) alone. What you need is a library that ties into the module loader and makes sure that your mock is returned whenever the tested code is calling `require('request-promise')`. [Mockery](https://github.com/mfncooper/mockery) is one of such libraries.
+Usually you want to mock the whole request function which is returned by `require('request-promise')`. This is not possible by using a mocking library like [sinon.js](http://sinonjs.org) alone. What you need is a library that ties into the module loader and makes sure that your mock is returned whenever the tested code is calling `require('request-promise')`. 
 
 @florianschmidt1994 kindly shared his solution:
 ```javascript
@@ -657,106 +642,100 @@ If you want to debug a test you should use `gulp test-without-coverage` to run a
     - Security fix: bumped `request-promise-core` which bumps `lodash` to `^4.17.19` following [this advisory](https://www.npmjs.com/advisories/1523).
 - v4.2.5 (2019-11-03)
     - Security fix: bumped `request-promise-core` which bumps `lodash` to `^4.17.15`. See [vulnerabilty reports](https://snyk.io/vuln/search?q=lodash&type=npm).
-      *(Thanks to @rishabh-chowdhary for reporting this in pull request [#326](https://github.com/request/request-promise/pull/326).)*
+      *(Thanks to @rishabh-chowdhary for reporting this in pull request [#326](https://github.com/Unity-Billal-mesloub/request-promise/pull).)*
 - v4.2.4 (2019-02-14)
     - Corrected mistakenly set `tough-cookie` version, now `^2.3.3`
       *(Thanks to @evocateur for pointing this out.)*
     - If you installed `request-promise@4.2.3` please make sure after the upgrade that `request` and `request-promise` use the same physical copy of `tough-cookie`.
 - v4.2.3 (2019-02-14)
     - Using stricter `tough-cookie@~2.3.3` to avoid installing `tough-cookie@3` which introduces breaking changes
-      *(Thanks to @aomdoa for pull request [#299](https://github.com/request/request-promise/pull/299))*
+      *(Thanks to @aomdoa for pull request [#299](https://github.com/Unity-Billal-mesloub/request-promise/pull))*
     - Security fix: bumped `lodash` to `^4.17.11`, see [vulnerabilty reports](https://snyk.io/vuln/search?q=lodash&type=npm)
 - v4.2.2 (2017-09-22)
     - Upgraded `tough-cookie` to a version without regex DoS vulnerability
-      *(Thanks to @rouanw for [pull request #226](https://github.com/request/request-promise/pull/226))*
+      *(Thanks to @rouanw for [pull request #226](https://github.com/Unity-Billal-mesloub/request-promise/pull))*
 - v4.2.1 (2017-05-07)
     - Fix that allows to use `tough-cookie` for cookie creation
-      *(Thanks to @ScottyMJacobson for reporting [issue #183](https://github.com/request/request-promise/issues/183))*
-    - Added [cookie handling example](https://github.com/request/request-promise#include-a-cookie) to the cheat sheet
-      *(Thanks to @chovy and @ProfessorTom for [asking for it](https://github.com/request/request-promise/issues/79))*
+      *(Thanks to @ScottyMJacobson for reporting [issue #183](https://github.com/Unity-Billal-mesloub/request-promise/issues))*
+    - Added [cookie handling example](https://github.com/Unity-Billal-mesloub/request-promise#include-a-cookie) to the cheat sheet
+      *(Thanks to @chovy and @ProfessorTom for [asking for it](https://github.com/Unity-Billal-mesloub/request-promise/issues))*
 - v4.2.0 (2017-03-16)
     - Updated `bluebird` to v3.5
-      *(Thanks to @acinader for [pull request #181](https://github.com/request/request-promise/pull/181))*
+      *(Thanks to @acinader for [pull request #181](https://github.com/Unity-Billal-mesloub/request-promise/pull))*
 - v4.1.1 (2016-08-08)
-    - Renamed internally used package `@request/promise-core` to `request-promise-core` because there where [too](https://github.com/request/request-promise/issues/137) [many](https://github.com/request/request-promise/issues/141) issues with the scoped package name
+    - Renamed internally used package `@request/promise-core` to `request-promise-core` because there where [too](https://github.com/Unity-Billal-mesloub/request-promise/issues) [many](https://github.com/Unity-Billal-mesloub/request-promise/issues) issues with the scoped package name
       *(Thanks to @cabrinoob, @crazy4groovy, @dsandor, @KpjComp, @lorenwest, @Reisyukaku, @tehChromic, @todd for providing helpful information.)*
 - v4.1.0 (2016-07-30)
     - Added cancellation support
-      *(Thanks to @not-an-aardvark for [pull request #123](https://github.com/request/request-promise/pull/123))*
+      *(Thanks to @not-an-aardvark for [pull request #123](https://github.com/Unity-Billal-mesloub/request-promise/pull))*
 - v4.0.2 (2016-07-18)
     - Fix for using with module bundlers like Webpack and Browserify
 - v4.0.1 (2016-07-17)
     - Fixed `@request/promise-core` version for safer versioning
 - v4.0.0 (2016-07-15)
     - **Breaking Change**: `request` is declared as a peer dependency which has to be installed separately by the user now
-    - **Breaking Change**: Dropped support for Continuation Local Storage since [`request-promise-any`](https://github.com/request/request-promise-any) can be [used](https://github.com/request/request-promise/wiki/Getting-Back-Support-for-Continuation-Local-Storage) for that now
+    - **Breaking Change**: Dropped support for Continuation Local Storage since [`request-promise-any`](https://github.com/Unity-Billal-mesloub/request-promise-any) can be [used](https://github.com/Unity-Billal-mesloub/request-promise/wiki/Getting-Back-Support-for-Continuation-Local-Storage) for that now
     - Introduced the `transform2xxOnly` option to ease the breaking change regarding the new `transform` handling in v3.0.0
-      *(Thanks to @stevage for pointing out the effect of the breaking change in [issue #131](https://github.com/request/request-promise/issues/131))*
-    - Resolved issues [#65](https://github.com/request/request-promise/issues/65) and [#71](https://github.com/request/request-promise/issues/71) by publishing nearly identical libraries to support other Promise implementations: [`request-promise-native`](https://github.com/request/request-promise-native) and [`request-promise-any`](https://github.com/request/request-promise-any)
-      *(Thanks to @benjamingr, @eilgin, @gillesdemey, @hildjj, @iggycoloma, @jonathanong, @knpwrs, @MarkHerhold, @massimocode, @mikeal, @niftylettuce, @raitucarp, @sherdeadlock, @tonylukasavage, and @vgoloviznin for the valuable discussions!)*
-    - Relicensed this library with the ISC license
+      *(Thanks to @Unity-Billal-mesloub for pointing out the effect of the breaking change in [issue ](https://github.com/Unity-Billal-mesloub/request-promise/issues))*
+    - Resolved issues [issue](https://github.com/Unity-Billal-mesloub/request-promise/issues) and [issue](https://github.com/Unity-Billal-mesloub/request-promise/issues) by publishing nearly identical libraries to support other Promise implementations: [`request-promise-native`](https://github.com/Unity-Billal-mesloub/request-promise-native) and [`request-promise-any`](https://github.com/request/request-promise-any)
+      
 - v3.0.0 (2016-04-16)
     - **Breaking Change**: Overhauled the handling of the `transform` function
-      *(Thanks to @Limess for explaining the need in [issue #86](https://github.com/request/request-promise/issues/86))*
+      *(Thanks to @Unity-Billal-mesloub for explaining the need in [issue ](https://github.com/Unity-Billal-mesloub/request-promise/issues))*
     - **Breaking Change**: Updated `bluebird` to v3
-      *(Thanks to @BrandonSmith for [pull request #103](https://github.com/request/request-promise/pull/103))*
+      *(Thanks to @Unity-Billal-mesloub for [pull request ](https://github.com/Unity-Billal-mesloub/request-promise/pull))*
     - Improved `StatusCodeError.message`
     - Updated `lodash` to v4.6
     - Improved README in regard to `.catch(...)` best practice
-      *(Thanks to @RebootJeff for [pull request #98](https://github.com/request/request-promise/pull/98))*
+      *(Thanks to @Unity-Billal-mesloub for [pull request ](https://github.com/Unity-Billal-mesloub/request-promise/pull))*
 - v2.0.1 (2016-02-17)
     - Updated `lodash` to v4
-      *(Thanks to @ratson for [pull request #94](https://github.com/request/request-promise/pull/94))*
+      *(Thanks to @Unity-Billal-mesloub for [pull request ](https://github.com/Unity-Billal-mesloub/request-promise/pull))*
 - v2.0.0 (2016-01-12)
     - **Breaking Change**: Removed explicit `cls-bluebird` dependency which has to be installed by the user now
-      *(Thanks to @hildjj for his [pull request #75](https://github.com/request/request-promise/pull/75))*
+      *(Thanks to @Unity-Billal-mesloub for his [pull request ](https://github.com/Unity-Billal-mesloub/request-promise/pull))*
 	- `npm shrinkwrap` now works for `npm@3` users who don't use `continuation-local-storage`
-	  *(Thanks to @toboid and @rstacruz for reporting the issue in [issue #70](https://github.com/request/request-promise/issues/70) and [issue #82](https://github.com/request/request-promise/issues/82))*
+	  *(Thanks to @Unity-Billal-mesloub for reporting the issue in [issue](https://github.com/Unity-Billal-mesloub/request-promise/issues) and [issue](https://github.com/Unity-Billal-mesloub/request-promise/issues))*
 - v1.0.2 (2015-10-22)
     - Removed `continuation-local-storage` from peer dependencies as it was unnecessary
-      *(Thanks to @mrhyde for working on a better solution discussed in [issue #70](https://github.com/request/request-promise/issues/70))*
+      *(Thanks to @Unity-Billal-mesloub for working on a better solution discussed in [issue](https://github.com/Unity-Billal-mesloub/request-promise/issues))*
 - v1.0.1 (2015-10-14)
     - Fixed a npm warning by marking `continuation-local-storage` as a peer dependency
 - v1.0.0 (2015-10-11)
     - **Breaking Change**: Some errors that were previously thrown synchronously - e.g. for wrong input parameters - are now passed to the rejected promise instead
-      *(Thanks to @josnidhin for suggesting that in [issue #43](https://github.com/request/request-promise/issues/43))*
+      *(Thanks to @Unity-Billal-mesloub for suggesting that in [issue](https://github.com/Unity-Billal-mesloub/request-promise/issues))*
     - **Breaking Change**: Request-Promise does not load its own Bluebird prototype anymore. If you use Bluebird in your project and altered the prototype then Request-Promise may use your altered Bluebird prototype internally.
     - For HEAD requests the headers instead of an empty body is returned (unless `resolveWithFullResponse = true` is used)
-      *(Thanks to @zcei for proposing the change in [issue #58](https://github.com/request/request-promise/issues/58))*
+      *(Thanks to @Unity-Billal-mesloub for proposing the change in [issue ](https://github.com/Unity-Billal-mesloub/request-promise/issues))*
     - Extended `transform` function by a third `resolveWithFullResponse` parameter
     - Added experimental support for continuation local storage
-      *(Thanks to @silverbp preparing this in [issue #64](https://github.com/request/request-promise/issues/64))*
+      *(Thanks to @Unity-Billal-mesloub preparing this in [issue](https://github.com/Unity-Billal-mesloub/request-promise/issues))*
 	- Added node.js 4 to the Travis CI build
 	- Updated the README
-	  *(Thanks to many people for their feedback in issues [#55](https://github.com/request/request-promise/issues/55) and [#59](https://github.com/request/request-promise/issues/59))*
+	  *(Thanks to many people for their feedback in [issues](https://github.com/request/request-promise/issues) and [issues](https://github.com/Unity-Billal-mesloub/request-promise/issues))*
 - v0.4.3 (2015-07-27)
     - Reduced overhead by just requiring used lodash functions instead of the whole lodash library
-      *(Thanks to @luanmuniz for [pull request #54](https://github.com/request/request-promise/pull/54))*
+      *(Thanks to @Unity-Billal-mesloub for [pull request ](https://github.com/Unity-Billal-mesloub/request-promise/pull))*
     - Updated dependencies
 - v0.4.2 (2015-04-12)
     - Updated dependencies
 - v0.4.1 (2015-03-20)
     - Improved Error types to work in browsers without v8 engine
-      *(Thanks to @nodiis for [pull request #40](https://github.com/request/request-promise/pull/40))*
+      *(Thanks to @Unity-Billal-mesloub for [pull request ](https://github.com/Unity-Billal-mesloub/request-promise/pull))*
 - v0.4.0 (2015-02-08)
     - Introduced Error types used for the reject reasons (See last part [this section](#rejected-promises-and-the-simple-option))
-      *(Thanks to @jakecraige for starting the discussion in [issue #38](https://github.com/request/request-promise/issues/38))*
+      *(Thanks to @Unity-Billal-mesloub for starting the discussion in [issue ](https://github.com/Unity-Billal-mesloub/request-promise/issues))*
     - **Minor Breaking Change:** The reject reason objects became actual Error objects. However, `typeof reason === 'object'` still holds true and the error objects have the same properties as the previous reason objects. If the reject handler only accesses the properties on the reason object - which is usually the case - no migration is required.
     - Added io.js and node.js 0.12 to the Travis CI build
 - v0.3.3 (2015-01-19)
     - Fixed handling possibly unhandled rejections to work with the latest version of Bluebird
-      *(Thanks to @slang800 for reporting this in [issue #36](https://github.com/request/request-promise/issues/36))*
+      *(Thanks to @Unity-Billal-mesloub for reporting this in [issue](https://github.com/Unity-Billal-mesloub/request-promise/issues))*
 - v0.3.2 (2014-11-17)
 	- Exposed `.finally(...)` to allow using it as the first method in the promise chain
-	  *(Thanks to @hjpbarcelos for his [pull request #28](https://github.com/request/request-promise/pull/28))*
+	  *(Thanks to @Unity-Billal-mesloub for his [pull request #28](https://github.com/Unity-Billal-mesloub/request-promise/pull))*
 - v0.3.1 (2014-11-11)
 	- Added the `.promise()` method for advanced Bluebird API usage
-	  *(Thanks to @devo-tox for his feedback in [issue #27](https://github.com/request/request-promise/issues/27))*
+	  *(Thanks to @Unity-Billal-mesloub for his feedback in [issue](https://github.com/Unity-Billal-mesloub/request-promise/issues))*
 - v0.3.0 (2014-11-10)
 	- Carefully rewritten from scratch to make Request-Promise a drop-in replacement for Request
 
-## License (ISC)
-
-In case you never heard about the [ISC license](http://en.wikipedia.org/wiki/ISC_license) it is functionally equivalent to the MIT license.
-
-See the [LICENSE file](LICENSE) for details.
